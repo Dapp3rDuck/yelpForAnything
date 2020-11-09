@@ -38,7 +38,13 @@ app.get('/insertRating', (request, response)  => {
 
 app.get('/getRatings', (request, response)  => {
     //TODO: connect to the database, select all ratings, and return them in an HTML table or similar
-    response.status(200).send( 'This is just a test, not real ratings. Sorry.' );
+    var array = dao.getAllRatings();
+    var send = "<table id='ratings'><tr class='first-row'><td>Ratee</td><td>Stars</td><td>Comment</td></tr>";
+    for(var i = 0; i < array.length; i++) {
+        send += "<tr><td>" + array[i].ratee + "</td><td>" + array[i].stars + "</td><td>" + array[i].comment + "</td></tr>";
+    }
+    send += "</table>";
+    response.status(200).send(send);
 })
 
 app.listen(port, () => {

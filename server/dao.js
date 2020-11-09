@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var array = [];
 
 var con = mysql.createConnection({
   host: "localhost",
@@ -20,11 +21,24 @@ con.connect(function(err) {
 
 module.exports = {
   deleteRating: function (ratee, stars, comment) {
-    //TODO
+    con.query("remove * from rating;", [[ratee, stars, comment]], 
+    function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+    });   
   },
-  
+    
   getAllRatings: function() {
-    //TODO
+    con.query("Select * from rating;", function(err, result, fields) {
+      if(err) throw err;
+      array = [];
+      for(var n=0; n < result.length; n++) {
+        array.push(result[n]);
+        console.log(array);
+      }
+    }
+    );
+    return(array);
   },
   
   insertRating: function (ratee, stars, comment) {
